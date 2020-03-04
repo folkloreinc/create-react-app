@@ -15,6 +15,7 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
+const buildDirectory = process.env.BUILD_DIR || 'build';
 const publicDirectory = process.env.PUBLIC_DIR || 'public';
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const resolveIfExists = (resolveFn, path) => {
@@ -65,7 +66,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp(buildDirectory),
   appPublic: resolveIfExists(resolveApp, publicDirectory),
   appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
@@ -87,7 +88,7 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp(buildDirectory),
   appPublic: resolveIfExists(resolveApp, publicDirectory),
   appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
@@ -122,7 +123,7 @@ if (
   module.exports = {
     dotenv: resolveOwn(`${templatePath}/.env`),
     appPath: resolveApp('.'),
-    appBuild: resolveOwn('../../build'),
+    appBuild: resolveOwn(path.join('../../', buildDirectory)),
     appPublic: resolveIfExists(resolveOwn, path.join(templatePath, publicDirectory)),
     appHtml: resolveIfExists(resolveOwn, path.join(templatePath, publicDirectory, 'index.html')),
     appIndexJs: resolveModule(resolveOwn, `${templatePath}/src/index`),
