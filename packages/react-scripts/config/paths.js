@@ -15,7 +15,12 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
+const publicDirectory = process.env.PUBLIC_DIR || 'public';
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const resolveIfExists = (resolveFn, path) => {
+    const absPath = resolveFn(path);
+    return fs.existsSync(absPath) ? absPath : null;
+}
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -61,8 +66,8 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
+  appPublic: resolveApp(publicDirectory),
+  appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
@@ -83,8 +88,8 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
+  appPublic: resolveApp(publicDirectory),
+  appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
@@ -118,8 +123,8 @@ if (
     dotenv: resolveOwn(`${templatePath}/.env`),
     appPath: resolveApp('.'),
     appBuild: resolveOwn('../../build'),
-    appPublic: resolveOwn(`${templatePath}/public`),
-    appHtml: resolveOwn(`${templatePath}/public/index.html`),
+    appPublic: resolveOwn(path.join(templatePath, publicDirectory)),
+    appHtml: resolveIfExists(resolveOwn, path.join(templatePath, publicDirectory, 'index.html')),
     appIndexJs: resolveModule(resolveOwn, `${templatePath}/src/index`),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn(`${templatePath}/src`),
