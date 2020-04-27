@@ -17,6 +17,8 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 const appDirectory = fs.realpathSync(process.cwd());
 const buildDirectory = process.env.BUILD_DIR || 'build';
 const publicDirectory = process.env.PUBLIC_DIR || 'public';
+const srcDirectory = process.env.SRC_DIR || 'src';
+const indexJsPath = process.env.INDEXJS_PATH || path.join(srcDirectory, 'index');
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const resolveIfExists = (resolveFn, path) => {
     const absPath = resolveFn(path);
@@ -69,14 +71,14 @@ module.exports = {
   appBuild: resolveApp(buildDirectory),
   appPublic: resolveIfExists(resolveApp, publicDirectory),
   appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
+  appIndexJs: resolveModule(resolveApp, indexJsPath),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
+  appSrc: resolveApp(srcDirectory),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveModule(resolveApp, 'src/setupTests'),
-  proxySetup: resolveApp('src/setupProxy.js'),
+  testsSetup: resolveModule(resolveApp, path.join(srcDirectory, 'setupTests')),
+  proxySetup: resolveApp(path.join(srcDirectory, 'setupProxy.js')),
   appNodeModules: resolveApp('node_modules'),
   publicUrlOrPath,
 };
@@ -91,20 +93,20 @@ module.exports = {
   appBuild: resolveApp(buildDirectory),
   appPublic: resolveIfExists(resolveApp, publicDirectory),
   appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
+  appIndexJs: resolveModule(resolveApp, indexJsPath),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
+  appSrc: resolveApp(srcDirectory),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveModule(resolveApp, 'src/setupTests'),
-  proxySetup: resolveApp('src/setupProxy.js'),
+  testsSetup: resolveModule(resolveApp, path.join(srcDirectory, 'setupTests')),
+  proxySetup: resolveApp(path.join(srcDirectory, 'setupProxy.js')),
   appNodeModules: resolveApp('node_modules'),
   publicUrlOrPath,
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
-  appTypeDeclarations: resolveApp('src/react-app-env.d.ts'),
+  appTypeDeclarations: resolveApp(path.join(srcDirectory, 'react-app-env.d.ts')),
   ownTypeDeclarations: resolveOwn('lib/react-app.d.ts'),
 };
 
