@@ -669,7 +669,12 @@ module.exports = function(webpackEnv) {
         publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = file.path;
+            // Fix with mini css imported assets
+            if (file.name.match(/\.(css|scss)$/) !== null && file.path.match(/\.(css|scss)$/) === null) {
+                manifest[file.path.replace(/\.[^.]+(\.[^.]+)$/, '$1').replace(/^\//, '')] = file.path;
+            } else {
+                manifest[file.name] = file.path;
+            }
             return manifest;
           }, seed);
           const entrypointFiles = entrypoints.main.filter(
