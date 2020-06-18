@@ -19,6 +19,7 @@ const buildDirectory = process.env.BUILD_DIR || 'build';
 const publicDirectory = process.env.PUBLIC_DIR || 'public';
 const srcDirectory = process.env.SRC_DIR || 'src';
 const indexJsPath = process.env.INDEXJS_PATH || path.join(srcDirectory, 'index');
+const indexHtmlPath = process.env.INDEXHTML_PATH || path.join(publicDirectory, 'index.html');
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const resolveIfExists = (resolveFn, path) => {
     const absPath = resolveFn(path);
@@ -70,7 +71,7 @@ module.exports = {
   appPath: resolveApp('.'),
   appBuild: resolveApp(buildDirectory),
   appPublic: resolveIfExists(resolveApp, publicDirectory),
-  appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
+  appHtml: resolveIfExists(resolveApp, indexHtmlPath),
   appIndexJs: resolveModule(resolveApp, indexJsPath),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp(srcDirectory),
@@ -92,7 +93,7 @@ module.exports = {
   appPath: resolveApp('.'),
   appBuild: resolveApp(buildDirectory),
   appPublic: resolveIfExists(resolveApp, publicDirectory),
-  appHtml: resolveIfExists(resolveApp, path.join(publicDirectory, 'index.html')),
+  appHtml: resolveIfExists(resolveApp, indexHtmlPath),
   appIndexJs: resolveModule(resolveApp, indexJsPath),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp(srcDirectory),
