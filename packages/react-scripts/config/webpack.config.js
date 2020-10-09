@@ -369,7 +369,7 @@ module.exports = function (webpackEnv) {
                 eslintPath: require.resolve('eslint'),
                 resolvePluginsRelativeTo: __dirname,
                 baseConfig: {
-                  extends: [require.resolve('eslint-config-react-app/base')],
+                  extends: [require.resolve('eslint-config-react-app')],
                 },
               },
               loader: require.resolve('eslint-loader'),
