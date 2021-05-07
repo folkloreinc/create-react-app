@@ -21,6 +21,7 @@ const host = process.env.HOST || '0.0.0.0';
 const sockHost = process.env.WDS_SOCKET_HOST;
 const sockPath = process.env.WDS_SOCKET_PATH; // default: '/sockjs-node'
 const sockPort = process.env.WDS_SOCKET_PORT;
+const disableWatchContentBase = process.env.DISABLE_WATCH_CONTENT_BASE === 'true';
 
 module.exports = function (proxy, allowedHost) {
   return {
@@ -64,7 +65,7 @@ module.exports = function (proxy, allowedHost) {
     contentBase: paths.appPublic,
     contentBasePublicPath: paths.publicUrlOrPath,
     // By default files from `contentBase` will not trigger a page reload.
-    watchContentBase: true,
+    watchContentBase: !disableWatchContentBase,
     // Enable hot reloading server. It will provide WDS_SOCKET_PATH endpoint
     // for the WebpackDevServer client so it can learn when the files were
     // updated. The WebpackDevServer client is included as an entry point
